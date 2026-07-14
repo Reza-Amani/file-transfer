@@ -4,8 +4,8 @@ Operational description of the file-transfer system. For current architectural
 intent (not yet binding), see
 [`adr/0001-c-client-server-architecture.adr.md`](../adr/0001-c-client-server-architecture.adr.md).
 
-> **Status:** Early development. No source code or wire protocol is implemented
-> yet. Design is intentionally loose — update this doc as requirements firm up.
+> **Status:** Early development. A hello-world `src/main.c` and Makefile exist;
+> server/client modes and wire protocol are not implemented yet.
 
 ## Components
 
@@ -49,11 +49,12 @@ shape:
 ```
 file-transfer/
   src/
-    main.c          # CLI dispatch: server vs client mode
-    server/         # listen, accept, per-connection handling
-    client/         # connect, request, receive
-    common/         # protocol + shared utilities
-  Makefile          # or CMakeLists.txt — TBD
+    main.c          # CLI dispatch: server vs client mode (hello world for now)
+    server/         # listen, accept, per-connection handling (TBD)
+    client/         # connect, request, receive (TBD)
+    common/         # protocol + shared utilities (TBD)
+  Makefile
+  build.ps1         # Windows fallback when make is not in PATH
 ```
 
 ## Configuration (planned)

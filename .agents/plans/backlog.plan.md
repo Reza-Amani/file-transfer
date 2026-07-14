@@ -4,7 +4,7 @@ overview: Canonical backlog for file-transfer — a minimal C client/server file
 todos:
   - id: source-layout
     content: Define source tree (single binary, server/client modes, common/) and add first Makefile or CMake build
-    status: pending
+    status: in_progress
   - id: wire-protocol-adr
     content: Write ADR for on-the-wire protocol (framing, errors, connection model)
     status: pending
@@ -38,7 +38,7 @@ isProject: true
 
 ## Immediate Work
 
-- [ ] Define source tree and build system
+- [ ] Define source tree and build system (Makefile + hello world done; server/client/common dirs TBD)
 - [ ] ADR for wire protocol
 - [ ] Implement server
 - [ ] Implement client

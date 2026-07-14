@@ -42,8 +42,15 @@ sudo dnf install gcc make
 
 ## 2. Clone and build
 
-Source and build instructions are not in the repo yet. When they land, follow
-[`commands.md`](commands.md). Until then, there is nothing to compile.
+From the repo root:
+
+```bash
+make
+make run
+```
+
+On Windows without `make` in PATH, use `.\build.ps1` then `.\build\file-transfer.exe`.
+Full commands: [`commands.md`](commands.md).
 
 ## 3. Wire the manifest into your AI tools
 

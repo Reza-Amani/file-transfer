@@ -26,7 +26,23 @@ Early development. Server and client implementations are forthcoming.
 
 ## Building
 
-Build instructions will be added once the source layout is in place.
+Requires a C compiler (`gcc` or compatible). On Windows, [MSYS2](https://www.msys2.org/)
+with `mingw-w64-x86_64-gcc` is enough to start; install `make` for the Makefile
+(`pacman -S mingw-w64-x86_64-make`).
+
+```bash
+make
+make run
+```
+
+On Windows without `make` in PATH:
+
+```powershell
+.\build.ps1
+.\build\file-transfer.exe
+```
+
+See [`.agents/guides/commands.md`](.agents/guides/commands.md) for the full command reference.
 
 ## License
 
