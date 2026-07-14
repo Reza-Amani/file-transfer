@@ -128,6 +128,7 @@ static void handle_client(SOCKET sock, const char *serve_root)
         return;
     }
 
+    //secutity check; serve root only.
     if (!path_is_bare_filename(filename)) {
         send_err(sock, FT_ERR_INVALID_PATH);
         return;

@@ -4,8 +4,7 @@ A simple file transfer system written in C for **Windows** (Winsock).
 
 ## Overview
 
-One binary, two modes. Clients connect over TCP, request a file by bare name,
-and save it locally. The server serves files from a single directory and handles
+One binary, two modes. Clients connect over TCP, request a file by bare name, and save it locally. The server serves files from a single directory and handles
 multiple connections at once (one thread per connection).
 
 ```text
@@ -15,18 +14,21 @@ multiple connections at once (one thread per connection).
   +--------+                      +--------+
 ```
 
-Design and assumptions: [`.agents/reference/design.ref.md`](.agents/reference/design.ref.md).
+## Assumptions:
+- One binary, two modes.
+- Windows only.
+- Server and client are on the same network.
+- Security: Only check serve root. No encryption, no authentication, no access control. No checking for OS-special names.
+- Error handling:
+  - If Server is not running or reachable, client prints out and returns an error.
+  - If Server drops mid transfer, the client displays and returns an error AND remove the partially received file
 
-## Status
+## Documents:
+[design](.agents/reference/design.ref.md).
+[spec](.agents/plans/file-transfer.spec.md).
+[Toolchain Installation](.agents/guides/setup.md)
 
-Working Windows binary with `server` and `client` modes. See
-[`.agents/plans/file-transfer.spec.md`](.agents/plans/file-transfer.spec.md).
-
-## Quick start
-
-**Install toolchain** (Git, MSYS2 MinGW `gcc`):  
-[`.agents/guides/setup.md`](.agents/guides/setup.md)
-
+## Usage
 **Build**
 
 ```powershell
@@ -34,40 +36,20 @@ Working Windows binary with `server` and `client` modes. See
 ```
 
 **Same machine** (two terminals)
-
 ```powershell
 .\build\file-transfer.exe server --port 9000 --dir C:\share
 .\build\file-transfer.exe client --host 127.0.0.1 --port 9000 --file report.pdf --out .\report.pdf
 ```
 
-**Two machines:** run the server on the host that allows inbound TCP; point the
-client at that host’s LAN IP. Full flag reference and two-laptop walkthrough:
-[`.agents/guides/commands.md`](.agents/guides/commands.md).
+**Two machines:**
+Use the actual IP address of the server machine.
+[commands and usage](.agents/guides/commands.md).
 
-In Cursor / VS Code, use the **Build** and **Run** buttons in the status bar
-(see [`.vscode/tasks.json`](.vscode/tasks.json)).
-
-## Components
-
-| Mode | Role |
-|------|------|
-| **Server** | Listen on TCP, accept concurrent clients, serve bare filenames from `--dir` |
-| **Client** | Connect once, request `--file`, write `--out`, exit |
-
-## Docs map
-
-| Doc | Contents |
-|-----|----------|
-| [setup.md](.agents/guides/setup.md) | Install Git, GCC, first build |
-| [commands.md](.agents/guides/commands.md) | Build, CLI, same-machine and two-machine examples |
-| [design.ref.md](.agents/reference/design.ref.md) | Design overview and assumptions |
-| [file-transfer.spec.md](.agents/plans/file-transfer.spec.md) | Implementation spec |
-
-For contributors using AI agents in this repo: routing and placement rules live
-in [`.agents/rules/routing.rule.md`](.agents/rules/routing.rule.md) and
-[`.agents/rules/manifest-structure.rule.md`](.agents/rules/manifest-structure.rule.md).
-Those files are intended for agents, not required reading to build or run the
-program.
+## More info
+For effective use of AI agents, this repo uses an agent manifest bootstrapped from open-sourced
+[manifest-template](https://github.com/Reza-Amani/manifest-template).
+Routing and placement rules live in [routing](.agents/rules/routing.rule.md) and [manifest](.agents/rules/manifest-structure.rule.md).
+Those files are intended for agents.
 
 ## License
 

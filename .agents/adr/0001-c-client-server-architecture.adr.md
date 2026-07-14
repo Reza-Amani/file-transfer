@@ -11,7 +11,7 @@ a directory when run in server mode, and fetches a file by name when run in
 client mode. The implementation should stay small, readable, and free of
 third-party dependencies beyond normal system libraries.
 
-Alternatives considered: two separate binaries; POSIX-only or dual Windows/POSIX
+Alternatives considered, but not acted upon: two separate binaries; POSIX-only or dual Windows/POSIX
 sockets; event-loop concurrency instead of threads.
 
 ## Decision
