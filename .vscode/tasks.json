@@ -1,0 +1,47 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "detail": "Compile file-transfer (build.ps1)",
+            "type": "shell",
+            "command": "powershell",
+            "args": [
+                "-ExecutionPolicy",
+                "Bypass",
+                "-File",
+                "${workspaceFolder}/build.ps1"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "clear": true,
+                "reveal": "always"
+            },
+            "options": {
+                "statusbar": {
+                    "label": "$(tools) Build"
+                }
+            },
+            "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Run",
+            "detail": "Build and run file-transfer",
+            "type": "shell",
+            "command": "${workspaceFolder}/build/file-transfer.exe",
+            "dependsOn": "Build",
+            "presentation": {
+                "clear": true,
+                "reveal": "always"
+            },
+            "options": {
+                "statusbar": {
+                    "label": "$(play) Run"
+                }
+            }
+        }
+    ]
+}

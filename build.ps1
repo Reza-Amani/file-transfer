@@ -1,4 +1,4 @@
-# Build without make (Windows fallback). Prefer: make all
+# Canonical build on Windows. See .agents/guides/commands.md
 $ErrorActionPreference = "Stop"
 
 $BuildDir = "build"

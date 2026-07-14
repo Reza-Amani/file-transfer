@@ -53,8 +53,8 @@ file-transfer/
     server/         # listen, accept, per-connection handling (TBD)
     client/         # connect, request, receive (TBD)
     common/         # protocol + shared utilities (TBD)
-  Makefile
-  build.ps1         # Windows fallback when make is not in PATH
+  Makefile          # macOS / Linux
+  build.ps1         # Windows canonical build (Cursor status bar uses this)
 ```
 
 ## Configuration (planned)

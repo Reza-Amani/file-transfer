@@ -26,21 +26,25 @@ Early development. Server and client implementations are forthcoming.
 
 ## Building
 
-Requires a C compiler (`gcc` or compatible). On Windows, [MSYS2](https://www.msys2.org/)
-with `mingw-w64-x86_64-gcc` is enough to start; install `make` for the Makefile
-(`pacman -S mingw-w64-x86_64-make`).
+Requires a C compiler (`gcc` or compatible). On Windows, install [MSYS2](https://www.msys2.org/)
+and `mingw-w64-x86_64-gcc` so `gcc` is on PATH.
 
-```bash
-make
-make run
-```
-
-On Windows without `make` in PATH:
+**Build** from the repo root:
 
 ```powershell
 .\build.ps1
+```
+
+**Run** the hello-world binary:
+
+```powershell
 .\build\file-transfer.exe
 ```
+
+In Cursor / VS Code, use the **Build** and **Run** buttons in the status bar
+(see [`.vscode/tasks.json`](.vscode/tasks.json)).
+
+On macOS / Linux, use `make` instead of `build.ps1`.
 
 See [`.agents/guides/commands.md`](.agents/guides/commands.md) for the full command reference.
 

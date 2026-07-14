@@ -8,19 +8,25 @@ Quick reference for build, test, run, and CLI commands.
 
 ## Build
 
-With `make` (MSYS2/MinGW, macOS, Linux):
-
-```bash
-make
-```
-
-Without `make` on Windows (uses `gcc` from PATH):
+**Windows (canonical):** run [`build.ps1`](../../build.ps1) from the repo root.
 
 ```powershell
 .\build.ps1
 ```
 
-Output: `build/file-transfer` (or `build/file-transfer.exe` on Windows).
+In Cursor / VS Code, use the **Build** button in the status bar or
+`Terminal → Run Build Task` (`Ctrl+Shift+B`). Both run `build.ps1` via
+[`.vscode/tasks.json`](../../.vscode/tasks.json).
+
+Output: `build/file-transfer.exe`
+
+**macOS / Linux:** use the Makefile when `make` is available:
+
+```bash
+make
+```
+
+Output: `build/file-transfer`
 
 ## Test
 
@@ -32,13 +38,15 @@ Output: `build/file-transfer` (or `build/file-transfer.exe` on Windows).
 
 Hello-world smoke test (current `main`):
 
-```bash
-make run
-```
-
 ```powershell
 .\build.ps1
 .\build\file-transfer.exe
+```
+
+Or use the **Run** status bar task (builds first, then runs the binary).
+
+```bash
+make run
 ```
 
 ### Server mode (planned)
@@ -56,8 +64,12 @@ make run
 
 ## Clean
 
+Delete the `build/` directory:
+
+```powershell
+Remove-Item -Recurse -Force build
+```
+
 ```bash
 make clean
 ```
-
-Removes the `build/` directory.

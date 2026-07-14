@@ -5,23 +5,23 @@ manifest into your tools.
 
 ## 1. Install a C toolchain
 
-You need a C compiler and `make` (or another build driver once the project adds
-one).
+You need a C compiler. On Windows the project builds with [`build.ps1`](../../build.ps1)
+(no `make` required).
 
 ### Windows
 
-Install one of:
+Install **MSYS2** and the MinGW GCC package:
 
-- **MSYS2** — provides `gcc`, `make`, and a Unix-like shell. After install:
-  `pacman -S mingw-w64-x86_64-gcc make`
-- **Visual Studio Build Tools** — MSVC compiler; use when the project adds a
-  MSVC-friendly build (not yet present).
+```powershell
+pacman -S mingw-w64-x86_64-gcc
+```
+
+Ensure `C:\msys64\mingw64\bin` is on PATH (or open a MinGW64 shell).
 
 Verify:
 
 ```powershell
 gcc --version
-make --version
 ```
 
 ### macOS
@@ -44,12 +44,14 @@ sudo dnf install gcc make
 
 From the repo root:
 
-```bash
-make
-make run
+```powershell
+.\build.ps1
+.\build\file-transfer.exe
 ```
 
-On Windows without `make` in PATH, use `.\build.ps1` then `.\build\file-transfer.exe`.
+In Cursor / VS Code, use the **Build** status bar button or `Ctrl+Shift+B`
+(see [`.vscode/tasks.json`](../../.vscode/tasks.json)).
+
 Full commands: [`commands.md`](commands.md).
 
 ## 3. Wire the manifest into your AI tools
