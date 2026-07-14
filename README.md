@@ -19,8 +19,7 @@ Design and assumptions: [`.agents/reference/design.ref.md`](.agents/reference/de
 
 ## Status
 
-Early development. Architecture and protocol are specified; implementation of
-server/client modes is forthcoming. See
+Working Windows binary with `server` and `client` modes. See
 [`.agents/plans/file-transfer.spec.md`](.agents/plans/file-transfer.spec.md).
 
 ## Quick start
@@ -34,7 +33,7 @@ server/client modes is forthcoming. See
 .\build.ps1
 ```
 
-**Same machine** (two terminals; after server/client are implemented)
+**Same machine** (two terminals)
 
 ```powershell
 .\build\file-transfer.exe server --port 9000 --dir C:\share

@@ -108,9 +108,8 @@ powershell -ExecutionPolicy Bypass -File .\build.ps1
 Cursor and VS Code tasks already pass `-ExecutionPolicy Bypass` (see
 [`.vscode/tasks.json`](../../.vscode/tasks.json)).
 
-After the server/client implementation lands, run examples from
-[`commands.md`](commands.md). Until then, the binary may still be a hello-world
-stub — see the root [README](../../README.md) for current status.
+After a successful build, run examples from [`commands.md`](commands.md). An
+optional end-to-end check is `smoke-test.ps1` at the repo root.
 
 ---
 

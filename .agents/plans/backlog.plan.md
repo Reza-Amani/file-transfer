@@ -4,13 +4,13 @@ overview: Canonical backlog for file-transfer — Windows C client/server file t
 todos:
   - id: implement-per-spec
     content: Implement server/client/common per plans/file-transfer.spec.md and update build.ps1
-    status: pending
+    status: completed
   - id: docs-in-sync
     content: Keep README, design.ref.md, commands.md, setup.md aligned as CLI lands
-    status: pending
+    status: completed
   - id: smoke-script
     content: Optional PowerShell smoke test — transfer a known file and compare bytes
-    status: pending
+    status: completed
   - id: source-layout
     content: Define source tree (single binary, server/client modes, common/) and add first Makefile or CMake build
     status: completed
@@ -38,11 +38,12 @@ isProject: true
 
 ## Immediate Work
 
-- [ ] Implement per [`file-transfer.spec.md`](file-transfer.spec.md) (layout,
+- [x] Implement per [`file-transfer.spec.md`](file-transfer.spec.md) (layout,
       protocol, server threads, client `--out`, `build.ps1`)
-- [ ] Keep README / guides / `design.ref.md` accurate as the CLI lands
-- [ ] Optional: PowerShell smoke script (known file, byte compare)
-- [x] Source layout and build scaffolding (hello world)
+- [x] Keep README / guides / `design.ref.md` accurate as the CLI lands
+- [x] Optional: PowerShell smoke script (known file, byte compare) —
+      [`smoke-test.ps1`](../../smoke-test.ps1)
+- [x] Source layout and build scaffolding
 - [x] Wire protocol ADR ([`0002`](../adr/0002-line-oriented-transfer-protocol.adr.md))
 - [x] Bootstrap agent manifest (`.agents/`)
 

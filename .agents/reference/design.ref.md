@@ -64,6 +64,7 @@ See [ADR-0002](../adr/0002-line-oriented-transfer-protocol.adr.md) and
 - Binary files are supported; transfer is opaque bytes
 - Limited bandwidth / latency is handled by TCP plus chunked send/recv buffers,
   not by an application-level ACK protocol
+- Chunk size is **64 KiB** (`FT_CHUNK_SIZE` in `src/common/protocol.h`)
 
 ## Error handling (client `--out`)
 

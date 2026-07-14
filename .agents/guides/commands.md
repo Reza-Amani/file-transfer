@@ -93,9 +93,12 @@ connections.
 Manual demo: use the same-machine or two-machine examples above and confirm the
 output file matches the source (size and content).
 
-Optional stretch (if present): a PowerShell smoke script that starts the server,
-transfers a known file, and compares bytes — see the repo root or
-[`plans/backlog.plan.md`](../plans/backlog.plan.md).
+Optional automated smoke test (starts a temporary server, transfers a known
+binary file and an empty file, rejects an illegal name):
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\smoke-test.ps1
+```
 
 ## Clean
 
