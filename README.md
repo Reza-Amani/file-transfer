@@ -22,6 +22,7 @@ multiple connections at once (one thread per connection).
 - Error handling:
   - If Server is not running or reachable, client prints out and returns an error.
   - If Server drops mid transfer, the client displays and returns an error AND remove the partially received file
+- Network bandwidth: No app-level ACK/NACK, no compression. Submission by chuncks rather than whole file. Use TCP ability to handle loss and retransmission
 
 ## Documents:
 [design](.agents/reference/design.ref.md).
