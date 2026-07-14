@@ -22,11 +22,13 @@ see [`terms.rule.md`](terms.rule.md).
 ## Task → ADR (decisions)
 
 - How and why we record decisions → [`adr/0000-record-architecture-decisions.adr.md`](../adr/0000-record-architecture-decisions.adr.md)
-- C language, client/server split, and serve-directory model → [`adr/0001-c-client-server-architecture.adr.md`](../adr/0001-c-client-server-architecture.adr.md)
+- C language, one binary, Windows/Winsock, concurrency, serve root → [`adr/0001-c-client-server-architecture.adr.md`](../adr/0001-c-client-server-architecture.adr.md)
+- On-the-wire GET/OK/ERR protocol and chunked transfer → [`adr/0002-line-oriented-transfer-protocol.adr.md`](../adr/0002-line-oriented-transfer-protocol.adr.md)
 
 ## Task → Reference (mechanics)
 
-- Server and client roles, planned interaction, and source layout → [`reference/client-server.ref.md`](../reference/client-server.ref.md)
+- Design overview and assumptions → [`reference/design.ref.md`](../reference/design.ref.md)
+- Server/client interaction, CLI flags, source layout → [`reference/client-server.ref.md`](../reference/client-server.ref.md)
 
 ## Task → Skill (multi-step procedures)
 
@@ -47,12 +49,14 @@ see [`terms.rule.md`](terms.rule.md).
 ## Task → Plan (multi-step work across sessions)
 
 - Canonical backlog and current focus → [`plans/backlog.plan.md`](../plans/backlog.plan.md)
+- Implementation spec for core transfer → [`plans/file-transfer.spec.md`](../plans/file-transfer.spec.md)
 
 Important:
 
 - When you are in planning mode, or create a plan per user request, save the plan
   under `plans/` with a descriptive name and a `.plan.md` suffix. No other
   location is allowed for plans.
+- Specs from grilling use a `.spec.md` suffix under `plans/`.
 - When the user asks to continue or edit a plan, look for the plan under
   `plans/`, regardless of the default plan directory for the agent.
 

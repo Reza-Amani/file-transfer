@@ -10,8 +10,9 @@ with concurrent connections; the client requests one file by name and writes it
 to the local filesystem.
 
 The code should demonstrate clear architecture, competence with sockets
-and concurrency, and enough comments for peer review — not maximal features.
-Extra credit (delta/efficient re-transfer) is **out of scope** for this spec.
+and concurrency, and enough comments for reviewers — not maximal features.
+Delta / efficient re-transfer when the client already has a similar copy is
+**out of scope** for this spec.
 
 ## Decisions
 
@@ -106,7 +107,7 @@ Extra credit (delta/efficient re-transfer) is **out of scope** for this spec.
 
 **Out of scope (explicit)**
 
-- Extra credit: delta / rsync-like efficient re-transfer when client has an old copy
+- Delta / rsync-like efficient re-transfer when the client has an old copy
 - Encryption, authentication, access control beyond serve-root / bare-name checks
 - POSIX / Linux port, IPv6 dual-stack
 - HTTP protocol, UDP
@@ -151,11 +152,9 @@ Client                         Server
 
 - Keep code simple and readable; prefer obvious control flow over cleverness
 - Soft cap ~500 lines per source file
-- Do not implement extra credit in this workstream
-- Prefer linking existing ADRs/terms over duplicating them in new docs; where
-  this spec supersedes Proposed ADR wording (protocol, concurrency, CLI,
-  Windows-only), implementation and `design.ref.md` follow **this spec** until
-  ADRs are updated
+- Do not implement delta / efficient re-transfer in this workstream
+- Prefer linking existing ADRs/terms over duplicating them in new docs.
+  Implementation follows this spec together with Accepted ADRs 0001 and 0002.
 
 ## Open questions
 
@@ -163,11 +162,10 @@ Client                         Server
   `design.ref.md` or a constant comment
 - Whether the optional PowerShell smoke script is written — decide by remaining
   time after core transfer works
-- Accepting / revising [ADR-0001](../adr/0001-c-client-server-architecture.adr.md)
-  and adding a protocol ADR — deferred to a manifest-update pass (permission
-  gated after this spec)
 
 ## Implementation note
 
 Plan and implement this spec in a **separate** chat/session from grilling.
 Start from [`plans/backlog.plan.md`](backlog.plan.md) and this file.
+Manifest docs (ADRs, terms, references, guides, README) were aligned to this
+spec after the grilling session.

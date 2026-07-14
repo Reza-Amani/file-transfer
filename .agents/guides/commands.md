@@ -6,9 +6,11 @@ Quick reference for build, test, run, and CLI commands.
 > [`actions/verify-docs-in-sync.md`](../actions/verify-docs-in-sync.md) after
 > changing flags or binaries.
 
+Platform: **Windows** (Winsock). Canonical build is [`build.ps1`](../../build.ps1).
+
 ## Build
 
-**Windows (canonical):** run [`build.ps1`](../../build.ps1) from the repo root.
+From the repo root:
 
 ```powershell
 .\build.ps1
@@ -20,56 +22,88 @@ In Cursor / VS Code, use the **Build** button in the status bar or
 
 Output: `build/file-transfer.exe`
 
-**macOS / Linux:** use the Makefile when `make` is available:
+If PowerShell blocks the script:
 
-```bash
-make
+```powershell
+powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-Output: `build/file-transfer`
+## Run — same machine
+
+Serve a folder, then fetch a file (two terminals):
+
+```powershell
+# Terminal 1 — server
+.\build\file-transfer.exe server --port 9000 --dir C:\share
+
+# Terminal 2 — client
+.\build\file-transfer.exe client --host 127.0.0.1 --port 9000 --file report.pdf --out .\report.pdf
+```
+
+Replace `C:\share` and `report.pdf` with a real directory and bare filename that
+exists under that directory.
+
+### CLI reference
+
+**Server**
+
+```text
+file-transfer server --port <port> --dir <serve-root>
+```
+
+| Flag | Required | Meaning |
+|------|----------|---------|
+| `--port` | no (default 9000) | Listen port |
+| `--dir` | yes | Serve root directory |
+
+**Client**
+
+```text
+file-transfer client --host <addr> --port <port> --file <name> --out <path>
+```
+
+| Flag | Required | Meaning |
+|------|----------|---------|
+| `--host` | yes | Server address |
+| `--port` | no (default 9000) | Server port |
+| `--file` | yes | Bare filename to request |
+| `--out` | yes | Local path to write |
+
+## Run — two machines
+
+1. On the **server** machine, allow inbound TCP on the chosen port (default 9000)
+   and note that machine's LAN IP (e.g. `192.168.1.10`).
+2. Start the server with a shared folder:
+
+   ```powershell
+   .\build\file-transfer.exe server --port 9000 --dir C:\share
+   ```
+
+3. On the **client** machine (outbound TCP is enough):
+
+   ```powershell
+   .\build\file-transfer.exe client --host 192.168.1.10 --port 9000 --file report.pdf --out .\report.pdf
+   ```
+
+The client opens the connection; the server only needs to accept inbound
+connections.
 
 ## Test
 
-```bash
-# TBD — e.g. make test
-```
+Manual demo: use the same-machine or two-machine examples above and confirm the
+output file matches the source (size and content).
 
-## Run locally
-
-Hello-world smoke test (current `main`):
-
-```powershell
-.\build.ps1
-.\build\file-transfer.exe
-```
-
-Or use the **Run** status bar task (builds first, then runs the binary).
-
-```bash
-make run
-```
-
-### Server mode (planned)
-
-```bash
-# TBD — e.g. ./build/file-transfer server --root /path/to/files --listen :8080
-```
-
-### Client mode (planned)
-
-```bash
-# TBD — e.g. ./build/file-transfer client --host localhost:8080 --file report.pdf --output ./report.pdf
-# TBD — e.g. ./build/file-transfer client --host localhost:8080 --file readme.txt   # stdout
-```
+Optional stretch (if present): a PowerShell smoke script that starts the server,
+transfers a known file, and compares bytes — see the repo root or
+[`plans/backlog.plan.md`](../plans/backlog.plan.md).
 
 ## Clean
-
-Delete the `build/` directory:
 
 ```powershell
 Remove-Item -Recurse -Force build
 ```
 
-```bash
-make clean
-```
+## Design and setup
+
+- Design and assumptions → [`../reference/design.ref.md`](../reference/design.ref.md)
+- First-time toolchain install → [`setup.md`](setup.md)

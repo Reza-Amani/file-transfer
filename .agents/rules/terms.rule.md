@@ -11,34 +11,46 @@ output. Use one name for one concept everywhere.
 
 - **Server mode** is when the binary listens for network connections, receives
   file requests, and reads files from its configured **serve root**. One process
-  can handle **many connections at the same time**.
+  can handle **many connections at the same time** (one thread per connection).
 - **Client mode** is when the binary connects to a remote server, sends one
-  **file request**, and writes received bytes to disk or stdout. **One client
-  invocation uses one connection**, then exits.
+  **file request**, and writes received bytes to a local **output path**. **One
+  client invocation uses one connection**, then exits.
 - **Server** and **Client** name roles or modes, not separate programs. Do not
   call client mode "the server" or vice versa.
 
 ## File request
 
-- **File request** is the client's ask for a single file by name (relative to the
-  serve root). It is not a directory listing, upload, or sync operation unless
-  a future ADR explicitly adds that capability.
+- **File request** is the client's ask for a single file by **bare filename**
+  (no directories). It is not a directory listing, upload, or sync operation
+  unless a future ADR explicitly adds that capability.
+
+## Bare filename
+
+- A **bare filename** is a single path segment with no `/`, `\`, or `..`. The
+  server resolves it only under the **serve root**.
 
 ## Serve root
 
 - **Serve root** is the directory on the server host from which files may be
-  served. The server must reject paths that escape this directory (e.g. `../`
-  segments). Configuration key name TBD when CLI is implemented.
+  served. Set with the server CLI flag `--dir`. The server must reject names that
+  are not bare filenames.
+
+## Output path
+
+- **Output path** is the local filesystem path where client mode writes the
+  received file. Set with `--out` (required). On mid-transfer failure the client
+  deletes a partial output file.
 
 ## Transfer vs sync
 
 - **Transfer** means a one-way copy of a file from server to client for a single
   request. It does **not** mean bidirectional reconciliation; use **sync** only
-  if a future feature explicitly reconciles state both ways.
+  if a future feature explicitly reconciles state both ways. Efficient re-transfer
+  when the client already has a similar copy is out of scope until a future ADR.
 
 ## Component names in code
 
-- Use `server` and `client` for mode-specific logic (e.g. `server/` and
-  `client/` source directories, or `run_server` / `run_client` entry paths).
-- Use `common` (or `lib`) for code shared by both modes (protocol helpers,
-  error codes). Do not duplicate protocol logic.
+- Use `server` and `client` for mode-specific logic (directories `server/` and
+  `client/`, or `run_server` / `run_client` entry paths).
+- Use `common` for code shared by both modes (protocol helpers, Winsock helpers,
+  path validation). Do not duplicate protocol logic.

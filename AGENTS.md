@@ -10,26 +10,23 @@ Do not bulk-read every file under `.agents/` at once.
 
 ## Project direction
 
-Design is still loose — treat [`adr/`](.agents/adr/) entries marked **Proposed**
-as direction, not hard law, until requirements are settled and ADRs are
-**Accepted**.
+Implementation is driven by [`plans/file-transfer.spec.md`](.agents/plans/file-transfer.spec.md)
+and **Accepted** ADRs.
 
 - **C only.** Core transfer logic in C. Other languages need a new ADR.
-- **One binary, two modes.** A single program runs as **server** or **client**,
-  selected by CLI (subcommand or flag — exact shape TBD).
+- **One binary, two modes.** Subcommands `server` and `client`.
+- **Windows / Winsock.** First implementation targets Windows; POSIX needs a new ADR.
 - **One connection per client invocation.** Each client run handles one file
   request over one connection, then exits.
-- **Concurrent server.** In server mode, the process accepts and serves **multiple
-  incoming connections at the same time** at runtime.
-- **Serve from a configured directory.** Server mode reads files only from an
-  explicitly configured root. Validate paths; do not serve outside that root.
-- **Early project.** Source layout and wire protocol are still open. Check
-  [`plans/backlog.plan.md`](.agents/plans/backlog.plan.md) before large features.
+- **Concurrent server.** Thread per connection while the server process runs.
+- **Serve from `--dir`.** Bare filenames only; do not serve outside the serve root.
+- **Check the backlog** before large features:
+  [`plans/backlog.plan.md`](.agents/plans/backlog.plan.md).
 
 ## Generic rules
 
 - **Read the decisions first.** **Accepted** ADRs are binding. **Proposed** ADRs
-  capture intent until requirements are defined — do not treat them as frozen.
+  capture intent until accepted — do not treat them as frozen.
 - **Keep docs in sync.** If your change makes a reference or guide wrong, fix it
   in the same change. See [`.agents/rules/manifest-structure.rule.md`](.agents/rules/manifest-structure.rule.md).
 - **Check the backlog before proposing work.** The canonical task list lives in

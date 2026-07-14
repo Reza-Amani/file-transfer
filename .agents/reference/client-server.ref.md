@@ -1,77 +1,79 @@
 # Client/Server Mechanics
 
-Operational description of the file-transfer system. For current architectural
-intent (not yet binding), see
-[`adr/0001-c-client-server-architecture.adr.md`](../adr/0001-c-client-server-architecture.adr.md).
-
-> **Status:** Early development. A hello-world `src/main.c` and Makefile exist;
-> server/client modes and wire protocol are not implemented yet.
+Operational description of the file-transfer system. For decisions, see
+[`adr/0001-c-client-server-architecture.adr.md`](../adr/0001-c-client-server-architecture.adr.md)
+and
+[`adr/0002-line-oriented-transfer-protocol.adr.md`](../adr/0002-line-oriented-transfer-protocol.adr.md).
+For a short design summary, see [`design.ref.md`](design.ref.md).
 
 ## Components
 
-| Piece | Planned shape | Responsibility |
-|-------|---------------|----------------|
-| Binary | `file-transfer` (name TBD) | Single executable; **server** or **client** mode via CLI |
-| Server mode | subcommand / flag TBD | Listen, accept **concurrent** connections, validate requests, read files, send bytes |
-| Client mode | subcommand / flag TBD | Connect once, one file request, receive bytes, write to file or stdout, exit |
-| Shared code | `common/` or `lib/` (TBD) | Protocol framing, error codes, helpers used by both modes |
+| Piece | Shape | Responsibility |
+|-------|-------|----------------|
+| Binary | `file-transfer.exe` (Windows) | Single executable; **server** or **client** mode via subcommand |
+| Server mode | `server --port <p> --dir <root>` | Listen, accept, thread per connection, validate bare name, send file |
+| Client mode | `client --host --port --file --out` | Connect once, one request, write `--out`, exit |
+| Shared code | `src/common/` | Protocol framing, Winsock helpers, path validation |
 
-## Planned interaction
+## Interaction
 
 **Per client invocation** (one connection):
 
-```
+```text
   Client mode                     Server mode
     |                                |
-    | -------- TCP connect --------> |  (server may serve other clients in parallel)
+    | -------- TCP connect --------> |  (other clients may run in parallel)
     |                                |
-    | ---- file request (name) ----> |
-    |                                | validate path under serve root
-    |                                | read file from disk
-    | <------- file contents ------- |
+    | ---- GET <filename>\n -------> |
+    |                                | validate bare filename under serve root
+    |                                | open and read file
+    | <----- OK <size>\n ----------- |
+    | <----- <size> bytes ---------- |  (chunked)
     |                                |
-    | -------- close / EOF --------> |
+    | -------- close --------------> |
 ```
 
-**Server runtime:** one long-lived server process; many clients may connect and
-transfer files **at the same time**. How concurrency is implemented (threads,
-process-per-connection, event loop, etc.) is **not decided**.
+On failure the server sends `ERR <message>\n` and no body.
 
-Transport is assumed to be TCP until an ADR chooses otherwise. Port, framing,
-and error responses are **not decided** — track in
-[`plans/backlog.plan.md`](../plans/backlog.plan.md).
+**Server runtime:** one long-lived process; each accepted connection is handled
+on its own thread.
 
-## Planned source layout
+**Transport:** TCP, IPv4. Default port **9000**. Server binds `0.0.0.0`.
 
-Exact paths will be confirmed when the first commit adds source files. Expected
-shape:
+## Source layout
 
-```
+```text
 file-transfer/
   src/
-    main.c          # CLI dispatch: server vs client mode (hello world for now)
-    server/         # listen, accept, per-connection handling (TBD)
-    client/         # connect, request, receive (TBD)
-    common/         # protocol + shared utilities (TBD)
-  Makefile          # macOS / Linux
-  build.ps1         # Windows canonical build (Cursor status bar uses this)
+    main.c
+    server/server.c  server.h
+    client/client.c  client.h
+    common/
+      protocol.c  protocol.h
+      net.c       net.h
+      path.c      path.h
+  build.ps1
+  Makefile          # optional / legacy; Windows canonical build is build.ps1
 ```
 
-## Configuration (planned)
+Soft rule: keep each source file well under ~500 lines.
 
-| Setting | Mode | Purpose |
-|---------|------|---------|
-| Serve root path | Server | Directory files are read from |
-| Listen address/port | Server | Where clients connect |
-| Server address | Client | Where to connect |
-| Output path | Client | Local file to write; omit for stdout |
+## Configuration
 
-CLI flag names belong in [`guides/commands.md`](../guides/commands.md) once
-implemented.
+| Setting | Mode | Flag | Purpose |
+|---------|------|------|---------|
+| Serve root | Server | `--dir` | Directory files are read from |
+| Listen port | Server | `--port` | TCP port (default 9000) |
+| Server host | Client | `--host` | Address to connect to |
+| Server port | Client | `--port` | TCP port |
+| Remote file | Client | `--file` | Bare filename to request |
+| Output path | Client | `--out` | Local path to write (required) |
+
+CLI details and examples: [`guides/commands.md`](../guides/commands.md).
 
 ## Security notes
 
 - Treat every file request as untrusted input.
-- Resolve the requested name under the serve root and reject `..` and absolute
-  paths that escape the root.
-- Do not follow symlinks outside the serve root unless a future ADR allows it.
+- Accept **bare filenames** only; reject `/`, `\`, and `..`.
+- Open files only under the serve root (`--dir`).
+- Do not follow a design that serves paths outside that root.
