@@ -10,5 +10,10 @@
 # Editor / IDE
 .vscode/
 .idea/
+.cursor/
 *.swp
 *~
+
+# Local tool mirrors (canonical: .agents/). Recreate via .agents/guides/setup.md
+.github/skills
+.github/agents
