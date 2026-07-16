@@ -32,6 +32,8 @@ see [`terms.rule.md`](terms.rule.md).
 
 ## Task → Skill (multi-step procedures)
 
+- Grill the user about a plan, then write a spec under `plans/` → [`skills/grill-to-spec`](../skills/grill-to-spec/SKILL.md)
+- Turn a spec (or stated intent) into a Cursor-style plan under `plans/` → [`skills/spec-to-plan`](../skills/spec-to-plan/SKILL.md)
 - Scaffold a new server or client component end-to-end → [`skills/scaffold-component`](../skills/scaffold-component/SKILL.md)
 
 ## Task → Learning (teach session records)

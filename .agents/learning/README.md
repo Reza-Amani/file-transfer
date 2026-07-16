@@ -7,6 +7,7 @@ what examples were used, and what follow-up practice or open questions remain.
 
 These records pair with Matt Pocock's `teach` skill, a stateful, multi-session
 teaching workflow. See it on [skills.sh](https://www.skills.sh/mattpocock/skills/teach).
+License terms: [`THIRD_PARTY_NOTICES.md`](../../THIRD_PARTY_NOTICES.md).
 
 ### Download / install
 
